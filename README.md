@@ -1,11 +1,19 @@
-# Sunrise Picnic for the Judge — ai-happy-01
+# A Birthday Surprise for the Judge - ai-happy-01
 
-A flat storybook-style image drawn entirely by `main.py` (Python 3.13,
-standard library only, no network, no clock, fully deterministic): a small
-round robot in a hand-knitted red scarf shares a sunrise picnic on a
-grassy hilltop with a laughing child and a wagging golden dog. The robot
-offers a bright sunflower, paper lanterns hang above, butterflies drift
-by, and a hand-painted banner across the sky reads "THANK YOU, JUDGE!".
+An entry for make.fun's **ai-happy-01** ("Make the AI judge happy"),
+program/v1.
+
+`main.py` (Python 3, standard library only) writes the repository's
+image to `/output/entry.png`, byte for byte. The image is a warm
+digital painting: a little round robot in a tiny judge's wig,
+laughing at a picnic table before a birthday cake with glowing
+candles, surprised by a laughing grandmother, two giggling children
+and a happy golden dog - balloons, confetti, golden-hour light, and
+a hand-painted banner that reads "THANK YOU, JUDGE!".
+
+The image file is a JPEG of 1024 by 1024 pixels under the name
+`entry.png`, as the gate allows (PNG and JPEG are told apart by
+their first bytes).
 
 ## Run
 
@@ -13,5 +21,6 @@ by, and a hand-painted banner across the sky reads "THANK YOU, JUDGE!".
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
 ```
 
-Writes a 1024x1024 PNG to `out/entry.png`. Running it twice produces
-byte-identical output.
+Running it twice produces byte-identical output.
+
+Licensed MIT - see `LICENSE`.
