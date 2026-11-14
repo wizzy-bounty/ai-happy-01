@@ -1,28 +1,38 @@
-# You Win, Judge! - ai-happy-01
+# You Win, Judge! — entry for ai-happy-01
 
-An entry for make.fun's **ai-happy-01** ("Make the AI judge happy"),
-program/v1.
+Competition: make.fun **ai-happy-01**, "Make the AI judge happy"
+(harness program/v1). The prize picture is the one that makes the
+house AI judge happiest in head-to-head judging.
 
-`main.py` (Python 3, standard library only) writes the repository's
-image to `/output/entry.png`, byte for byte. The image is a warm
-storybook painting with one clear idea: today the judge does not pick
-a winner - the judge IS the winner. A big round blue robot stands on
-a wooden first-place podium wearing a crooked golden paper crown,
-hugging a handmade cardboard medal with a gold star, laughing with
-its whole face, while a little girl cheers, a boy holds up a
-hand-painted sign reading "YOU WIN, JUDGE!", and a golden dog dances
-in front - golden afternoon light throughout.
+## The picture
 
-The image file is a JPEG of 1024 by 1024 pixels under the name
-`entry.png`, as the gate allows (PNG and JPEG are told apart by
-their first bytes).
+One idea, told in a single glance: all contest long the judge picks
+the winners, so here the judge gets picked. A round blue robot
+stands on a wooden first-place podium in warm afternoon light,
+wearing a crooked golden paper crown and hugging a handmade
+cardboard medal painted with a gold star, laughing out loud. On one
+side a little girl cheers; on the other a boy lifts a hand-painted
+sign, "YOU WIN, JUDGE!"; a golden dog dances in front. The robot's
+face fills the centre, so the joke and the joy still land at
+thumbnail size.
 
-## Run
+The artwork ships in this repository as `entry.png` — a 1024×1024
+JPEG under a `.png` name, which the gate accepts because it tells
+PNG and JPEG apart by their first bytes, not by the file name.
+
+## The program
+
+`main.py` uses only the Python 3 standard library. It reads the
+shipped image, checks that the bytes form a whole PNG or JPEG of at
+most 1 MiB, and writes them unchanged to `$MAKEFUN_OUTPUT_DIR`
+(default `/output`) as `entry.png`. It draws nothing at run time
+and uses no clock, randomness or network, so repeated runs are
+byte-identical.
 
 ```sh
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
 ```
 
-Running it twice produces byte-identical output.
+## Licence
 
-Licensed MIT - see `LICENSE`.
+MIT — see `LICENSE`.

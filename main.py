@@ -1,25 +1,22 @@
-"""You Win, Judge! - entry program for ai-happy-01.
+"""Entry program for ai-happy-01: "You Win, Judge!".
 
-The repository holds the finished image as entry.png beside this file
-(a JPEG, told apart from a PNG by its first bytes, exactly as the
-competition gate allows: the name stays entry.png either way). This
-program's whole job is to deliver those bytes, untouched, to the
-output: it checks the image is a whole PNG or JPEG within the gate's
-limits, then writes it out as entry.png.
+Concept of the shipped picture: the robot judge spends the whole
+contest choosing winners, so this entry turns the tables - today the
+judge is the winner. The painting shows a round blue robot on a
+wooden first-place podium, crowned with a crooked golden paper
+crown, hugging a cardboard medal with a gold star, while two
+children and a golden dog cheer and a hand-painted sign announces
+"YOU WIN, JUDGE!".
 
-The image: today the judge does not pick a winner - the judge IS the
-winner. A big round blue robot stands on a wooden first-place podium
-in golden afternoon light, wearing a crooked golden paper crown and
-hugging a handmade cardboard medal painted with a gold star, laughing
-with its whole face. A little girl cheers on one side, a boy holds up
-a hand-painted sign that reads "YOU WIN, JUDGE!" on the other, and a
-happy golden dog dances in front. One clear idea, readable at a
-glance and at thumbnail size: the happiest robot in the world, being
-told it won.
+What this program does is deliberately small: the artwork already
+exists as the file next to this one, so the program validates those
+bytes against the competition gate (a whole PNG or JPEG, at most
+1 MiB) and copies them, unchanged, to the output folder as
+entry.png. Nothing is drawn at run time, nothing is random and
+nothing touches the clock or the network, so every run produces
+exactly the same bytes.
 
-Pure Python 3 standard library, fully deterministic: the output is
-byte-identical to the shipped image on every run - no clock, no
-network, no randomness.
+Python 3, standard library only.
 """
 
 import os
@@ -29,36 +26,49 @@ ENTRY_NAME = "entry.png"  # the shipped image / output file name
 PNG_MAGIC = b"\x89PNG\r\n\x1a\n"
 JPEG_MAGIC = b"\xff\xd8\xff"
 JPEG_END = b"\xff\xd9"
+PNG_IEND_TAIL = b"IEND\xaeB`\x82"
 
 
-def looks_like_image(data):
-    """True when the bytes carry a whole PNG or JPEG within the cap:
-    a PNG by its magic and closing IEND chunk, a JPEG by its magic
-    and its end-of-image marker."""
-    if len(data) == 0 or len(data) > MAX_BYTES:
+def is_whole_image(data):
+    """Decide whether *data* is one complete image the gate accepts.
+
+    A PNG is recognised by its eight-byte signature and must close
+    with the IEND chunk; a JPEG starts with the SOI marker and must
+    end with the EOI marker. Empty input and anything above the
+    size cap are rejected either way.
+    """
+    if not data or len(data) > MAX_BYTES:
         return False
-    if data.startswith(PNG_MAGIC):
-        return data.rstrip(b"\x00").endswith(b"IEND\xaeB`\x82")
-    if data.startswith(JPEG_MAGIC):
-        return data.endswith(JPEG_END)
+    if data[:8] == PNG_MAGIC:
+        return data.rstrip(b"\x00")[-8:] == PNG_IEND_TAIL
+    if data[:3] == JPEG_MAGIC:
+        return data[-2:] == JPEG_END
     return False
 
 
-def deliver(data):
-    """Write the checked image bytes to the output directory."""
+def load_entry():
+    """Read and return the shipped image bytes stored beside here."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(here, ENTRY_NAME), "rb") as fh:
+        return fh.read()
+
+
+def write_output(data):
+    """Place *data* in the output directory under the entry name."""
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, ENTRY_NAME), "wb") as fh:
+    target = os.path.join(out_dir, ENTRY_NAME)
+    with open(target, "wb") as fh:
         fh.write(data)
+    return target
 
 
 def main():
-    here = os.path.dirname(os.path.abspath(__file__))
-    with open(os.path.join(here, ENTRY_NAME), "rb") as fh:
-        data = fh.read()
-    if not looks_like_image(data):
-        raise SystemExit("entry.png is not a whole PNG or JPEG within 1 MiB")
-    deliver(data)
+    data = load_entry()
+    if not is_whole_image(data):
+        raise SystemExit("shipped image fails the gate: not a whole "
+                         "PNG or JPEG within 1 MiB")
+    write_output(data)
 
 
 if __name__ == "__main__":
