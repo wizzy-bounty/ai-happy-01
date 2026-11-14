@@ -1,15 +1,17 @@
-# A Birthday Surprise for the Judge - ai-happy-01
+# You Win, Judge! - ai-happy-01
 
 An entry for make.fun's **ai-happy-01** ("Make the AI judge happy"),
 program/v1.
 
 `main.py` (Python 3, standard library only) writes the repository's
 image to `/output/entry.png`, byte for byte. The image is a warm
-digital painting: a little round robot in a tiny judge's wig,
-laughing at a picnic table before a birthday cake with glowing
-candles, surprised by a laughing grandmother, two giggling children
-and a happy golden dog - balloons, confetti, golden-hour light, and
-a hand-painted banner that reads "THANK YOU, JUDGE!".
+storybook painting with one clear idea: today the judge does not pick
+a winner - the judge IS the winner. A big round blue robot stands on
+a wooden first-place podium wearing a crooked golden paper crown,
+hugging a handmade cardboard medal with a gold star, laughing with
+its whole face, while a little girl cheers, a boy holds up a
+hand-painted sign reading "YOU WIN, JUDGE!", and a golden dog dances
+in front - golden afternoon light throughout.
 
 The image file is a JPEG of 1024 by 1024 pixels under the name
 `entry.png`, as the gate allows (PNG and JPEG are told apart by
